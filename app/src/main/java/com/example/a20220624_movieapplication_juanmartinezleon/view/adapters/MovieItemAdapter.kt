@@ -15,12 +15,17 @@ import com.example.a20220624_movieapplication_juanmartinezleon.model.Movie
 class MovieItemAdapter(
     private val moviesList: MutableList<Movie> = mutableListOf(),
     private val genreList: List<Genre> = listOf(),
+    private val fetchNextMovies: () -> Unit,
+    private val openDetails: (Int?) -> Unit
 ): RecyclerView.Adapter<MovieItemAdapter.MovieItemViewHolder>() {
 
     private val cons = Constants
 
-    fun setMovies(newList: List<Movie>) {
+    fun setMovies(newList: List<Movie>, bNewOrAdd: Boolean) {
+        //true to clear the list and set, false to add new element to the list
+        if (bNewOrAdd)
         moviesList.clear()
+
         moviesList.addAll(newList)
         // works like notifySetChanged, but without the warning
         notifyItemRangeChanged(0, itemCount)
@@ -48,6 +53,10 @@ class MovieItemAdapter(
             binding?.rvGenres?.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL,false)
             binding.rvGenres.adapter = genresAdapter
 
+            binding.root.setOnClickListener {
+                openDetails(movieData.id)
+            }
+
         }
     }
 
@@ -62,6 +71,8 @@ class MovieItemAdapter(
 
     override fun onBindViewHolder(holder: MovieItemViewHolder, position: Int) {
         holder.onBind(moviesList[position])
+        if (position  == moviesList.size - 5)
+            fetchNextMovies()
     }
 
     override fun getItemCount() = moviesList.size

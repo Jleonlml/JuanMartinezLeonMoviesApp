@@ -12,10 +12,14 @@ data class MovieResponse (
 
 @Parcelize
 data class Movie (
+        @SerializedName("id") var id : Int? = null,
         @SerializedName("title") var title : String? = null,
         @SerializedName("poster_path") var posterPath : String? = null,
         @SerializedName("popularity") var popularity : Double? = null,
         @SerializedName("release_date") var releaseDate : String? = null,
-        @SerializedName("genre_ids") var genreIds : List<Int>? = null
+        @SerializedName("genre_ids") var genreIds : List<Int>? = null,
+        @SerializedName("genres") var genres : List<Genre>? = null,
+        @SerializedName("runtime") var runtime : Int? = null,
+        @SerializedName("homepage") var homepage : String? = null
 
 ): Parcelable

@@ -4,6 +4,7 @@ import com.example.a20220624_movieapplication_juanmartinezleon.api.MovieService
 import com.example.a20220624_movieapplication_juanmartinezleon.cons.Constants
 import com.example.a20220624_movieapplication_juanmartinezleon.repository.MovieRepositoryImp
 import com.example.a20220624_movieapplication_juanmartinezleon.view_model.GenreViewModel
+import com.example.a20220624_movieapplication_juanmartinezleon.view_model.MovieDetailViewModel
 import com.example.a20220624_movieapplication_juanmartinezleon.view_model.MovieViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,4 +30,5 @@ val networkModule = module {
 val viewModelModule = module {
     viewModel { MovieViewModel(get(), get()) }
     viewModel { GenreViewModel(get(), get()) }
+    viewModel { MovieDetailViewModel(get(), get()) }
 }

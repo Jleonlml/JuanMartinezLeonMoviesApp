@@ -9,4 +9,21 @@
         android:name="com.example.a20220624_movieapplication_juanmartinezleon.view.fragments.MovieListFragment">
     </fragment>
 
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.a20220624_movieapplication_juanmartinezleon.view.fragments.MovieDetailsFragment">
+        <argument android:name="movieId"
+            app:argType="integer"/>
+    </fragment>
+
+    <action
+        android:id="@+id/action_list_to_details"
+        app:destination="@id/detailsFragment"
+        >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+
+    </action>
+
 </navigation>

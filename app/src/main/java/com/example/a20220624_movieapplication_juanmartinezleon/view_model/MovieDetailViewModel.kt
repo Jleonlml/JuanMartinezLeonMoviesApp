@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 
-class MovieViewModel(
+class MovieDetailViewModel (
     private val repositoryImpl: MovieRepositoryImp,
     private val dispatcher: CoroutineDispatcher
 ): ViewModel() {
-    private val tag = "SchoolViewModel"
+    private val tag = "MovieDetailViewModel"
     private val viewModelSafeScope by lazy {
         viewModelScope + coroutineExceptionHandler
     }
@@ -29,17 +29,16 @@ class MovieViewModel(
         }
     }
 
-    private val _moviesLiveData = MutableLiveData<UiState>()
-    val moviesLiveData: LiveData<UiState> get() = _moviesLiveData
+    private val _movieDetailsLiveData = MutableLiveData<UiState>()
+    val movieDetailsLiveData: LiveData<UiState> get() = _movieDetailsLiveData
 
-    fun getMovies(language: String?, page: Int?) {
+    fun getMovieDetails(movieId: Int?) {
         viewModelSafeScope.launch(dispatcher) {
-            val response = repositoryImpl.getMovies(language = language, page= page).collect {
-                _moviesLiveData.postValue(it)
+            val response = repositoryImpl.getMovieDetails(movieId = movieId).collect {
+                _movieDetailsLiveData.postValue(it)
             }
         }
     }
 
-    fun setMovieLoadingState() { _moviesLiveData.value = UiState.Loading }
-
+    fun setMovieDetailsLoadingState() { _movieDetailsLiveData.value = UiState.Loading }
 }

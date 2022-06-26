@@ -10,6 +10,7 @@ import org.koin.java.KoinJavaComponent.get
 interface MovieRepository {
     suspend fun getMovies(language: String?, page: Int?): Flow<UiState>
     suspend fun getGenres(language: String?): Flow<UiState>
+    suspend fun getMovieDetails(movieId: Int?): Flow<UiState>
 }
 
 class MovieRepositoryImp(
@@ -39,6 +40,25 @@ class MovieRepositoryImp(
             try {
                 // attempt some code
                 val response = service.getGenres(language = language)
+                if (response.isSuccessful) {
+                    emit(response.body()?.let {
+                        UiState.Success(it)
+                    } ?: throw Exception("Null Response"))
+                } else {
+                    throw Exception("Failed network call")
+                }
+            } catch (e: Exception) {
+                Log.d("state", e.message.toString())
+                // catch the errors and run this block instead
+                emit(UiState.Error(e))
+            }
+        }
+
+    override suspend fun getMovieDetails(movieId: Int?): Flow<UiState> =
+        flow {
+            try {
+                // attempt some code
+                val response = service.getMovieDetails(movieId = movieId)
                 if (response.isSuccessful) {
                     emit(response.body()?.let {
                         UiState.Success(it)

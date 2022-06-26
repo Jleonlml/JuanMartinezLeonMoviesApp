@@ -3,4 +3,6 @@
     <string name="popularity_score">Popularity:</string>
     <string name="release_year">Release year:</string>
     <string name="genres">Genres</string>
+    <string name="runtime">Runtime</string>
+    <string name="homepage">Homepage:</string>
 </resources>
