@@ -1,16 +1,21 @@
 package com.example.a20220624_movieapplication_juanmartinezleon.view.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.a20220624_movieapplication_juanmartinezleon.cons.Constants
 import com.example.a20220624_movieapplication_juanmartinezleon.databinding.MovieItemBinding
+import com.example.a20220624_movieapplication_juanmartinezleon.model.Genre
 import com.example.a20220624_movieapplication_juanmartinezleon.model.Movie
 
 class MovieItemAdapter(
     private val moviesList: MutableList<Movie> = mutableListOf(),
-): RecyclerView.Adapter<MovieItemAdapter.PlayerRunesViewHolder>() {
+    private val genreList: List<Genre> = listOf(),
+): RecyclerView.Adapter<MovieItemAdapter.MovieItemViewHolder>() {
 
     private val cons = Constants
 
@@ -21,7 +26,7 @@ class MovieItemAdapter(
         notifyItemRangeChanged(0, itemCount)
     }
 
-    inner class PlayerRunesViewHolder(
+    inner class MovieItemViewHolder(
         private val binding: MovieItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(movieData: Movie) {
@@ -30,11 +35,24 @@ class MovieItemAdapter(
                 .load("${cons.imageUrl}${movieData.posterPath}")
                 .into(binding.ivPoster)
 
+            binding.tvPopularityScore.text = movieData.popularity?.toInt().toString()
+            binding.tvReleaseYear.text = movieData.releaseDate?.substring(0,4)
+
+            val movieGenres: MutableList<Genre> = mutableListOf()
+
+            movieData.genreIds?.forEach { id ->
+                var genre: Genre = genreList.single { it.id == id }
+                movieGenres.add(genre)
+            }
+            val genresAdapter = GenresAdapter(movieGenres)
+            binding?.rvGenres?.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL,false)
+            binding.rvGenres.adapter = genresAdapter
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PlayerRunesViewHolder(
+        MovieItemViewHolder(
             MovieItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -42,7 +60,7 @@ class MovieItemAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: PlayerRunesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieItemViewHolder, position: Int) {
         holder.onBind(moviesList[position])
     }
 

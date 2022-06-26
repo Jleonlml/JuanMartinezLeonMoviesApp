@@ -3,7 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginVertical="20dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"/>
 
     <ImageView
         android:id="@+id/ivPoster"
@@ -17,12 +25,76 @@
 
     <TextView
         android:id="@+id/tvMovieName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/ivPoster"
         app:layout_constraintStart_toEndOf="@id/ivPoster"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="20dp"
-        android:text="MovieName"
+        tools:text="MovieName"
+        android:textSize="20sp"
+        android:gravity="left"/>
+
+    <TextView
+        android:id="@+id/tvPopularityScoreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvMovieName"
+        app:layout_constraintStart_toEndOf="@id/ivPoster"
+        android:layout_marginHorizontal="20dp"
+        android:text="@string/popularity_score"
         android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvPopularityScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvMovieName"
+        app:layout_constraintStart_toEndOf="@id/guideLine"
+        android:layout_marginHorizontal="10dp"
+        tools:text="1000"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvReleaseYearLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPopularityScoreLabel"
+        app:layout_constraintStart_toEndOf="@id/ivPoster"
+        android:layout_marginHorizontal="20dp"
+        android:text="@string/release_year"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvReleaseYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPopularityScoreLabel"
+        app:layout_constraintStart_toEndOf="@id/guideLine"
+        android:layout_marginHorizontal="10dp"
+        tools:text="2022"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvGenresLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvReleaseYearLabel"
+        app:layout_constraintStart_toEndOf="@id/ivPoster"
+        android:layout_marginHorizontal="20dp"
+        android:text="@string/genres"
+        android:textSize="20sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGenres"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="6"
+        app:layout_constraintTop_toBottomOf="@id/tvGenresLabel"
+        app:layout_constraintStart_toStartOf="@id/tvMovieName"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/genre_item"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

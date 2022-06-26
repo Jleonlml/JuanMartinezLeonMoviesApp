@@ -14,4 +14,8 @@ data class MovieResponse (
 data class Movie (
         @SerializedName("title") var title : String? = null,
         @SerializedName("poster_path") var posterPath : String? = null,
+        @SerializedName("popularity") var popularity : Double? = null,
+        @SerializedName("release_date") var releaseDate : String? = null,
+        @SerializedName("genre_ids") var genreIds : List<Int>? = null
+
 ): Parcelable
