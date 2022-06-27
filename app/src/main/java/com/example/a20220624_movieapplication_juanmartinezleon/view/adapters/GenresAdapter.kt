@@ -16,13 +16,6 @@ class GenresAdapter(
 
     private val cons = Constants
 
-    fun setGenres(newList: List<Genre>) {
-        genresList.clear()
-        genresList.addAll(newList)
-        // works like notifySetChanged, but without the warning
-        notifyItemRangeChanged(0, itemCount)
-    }
-
     inner class GenreItemViewHolder(
         private val binding: GenreItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.a20220624_movieapplication_juanmartinezleon.cons.UiState
+import com.example.a20220624_movieapplication_juanmartinezleon.model.Genre
 import com.example.a20220624_movieapplication_juanmartinezleon.repository.MovieRepositoryImp
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -18,6 +19,7 @@ class GenreViewModel(
     private val dispatcher: CoroutineDispatcher
 ): ViewModel() {
     private val tag = "GenreViewModel"
+    lateinit var genreList: List<Genre>
     private val viewModelSafeScope by lazy {
         viewModelScope + coroutineExceptionHandler
     }

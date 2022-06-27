@@ -6,7 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.a20220624_movieapplication_juanmartinezleon.cons.UiState
+import com.example.a20220624_movieapplication_juanmartinezleon.model.Movie
+import com.example.a20220624_movieapplication_juanmartinezleon.model.MovieResponse
 import com.example.a20220624_movieapplication_juanmartinezleon.repository.MovieRepositoryImp
+import com.example.a20220624_movieapplication_juanmartinezleon.view.adapters.MovieItemAdapter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.collect
@@ -18,6 +21,11 @@ class MovieViewModel(
     private val dispatcher: CoroutineDispatcher
 ): ViewModel() {
     private val tag = "SchoolViewModel"
+    var currentMovieList: MutableList<Movie> = mutableListOf()
+    var bFirstLoad = true
+    var pageCounter: Int = 1
+    lateinit var movieItemAdapter: MovieItemAdapter
+
     private val viewModelSafeScope by lazy {
         viewModelScope + coroutineExceptionHandler
     }

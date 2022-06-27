@@ -29,14 +29,6 @@ class MovieListFragment: Fragment() {
     private val genreViewModel by sharedViewModel<GenreViewModel>()
     private val movieDetailsViewModel by sharedViewModel<MovieDetailViewModel>()
 
-    lateinit var genreList: List<Genre>
-    private var currentMovieList: MutableList<Movie> = mutableListOf()
-
-    private lateinit var movieItemAdapter: MovieItemAdapter
-
-    private var bFirstLoad = true
-    private var pageCounter: Int = 1
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +41,7 @@ class MovieListFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        bFirstLoad = true
+        movieViewModel.bFirstLoad = true
     }
 
     private fun configureObserver() {
@@ -57,26 +49,26 @@ class MovieListFragment: Fragment() {
             when (state) {
                 is UiState.Success -> {
                     val nextMoviesToAdd = (state.data as MovieResponse).results
-                    currentMovieList.addAll(nextMoviesToAdd)
-                    pageCounter++
-                    if (bFirstLoad) {
-                        movieItemAdapter = MovieItemAdapter(
-                            moviesList = currentMovieList,
-                            genreList = genreList,
+                    movieViewModel.currentMovieList.addAll(nextMoviesToAdd)
+                    movieViewModel.pageCounter++
+                    if (movieViewModel.bFirstLoad) {
+                        movieViewModel.movieItemAdapter = MovieItemAdapter(
+                            moviesList = movieViewModel.currentMovieList,
+                            genreList = genreViewModel.genreList,
                             fetchNextMovies = ::fetchNextMovies,
                             openDetails = ::openDetails,
                         )
-                        binding?.rvMovies?.adapter = movieItemAdapter
-                        bFirstLoad = false
+                        binding?.rvMovies?.adapter = movieViewModel.movieItemAdapter
+                        movieViewModel.bFirstLoad = false
                     }
                     else {
-                        movieItemAdapter.setMovies(nextMoviesToAdd, false)
+                        movieViewModel.movieItemAdapter.setMovies(nextMoviesToAdd, false)
                     }
                 }
                 is UiState.Error -> {
                 }
                 is UiState.Loading -> {
-                    movieViewModel.getMovies(language = "en-US", pageCounter)
+                    movieViewModel.getMovies(language = "en-US", movieViewModel.pageCounter)
                 }
             }
         }
@@ -84,7 +76,7 @@ class MovieListFragment: Fragment() {
         genreViewModel.genreLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    genreList = (state.data as GenreResponse).genres
+                    genreViewModel.genreList = (state.data as GenreResponse).genres
                     movieViewModel.setMovieLoadingState()
                 }
                 is UiState.Error -> {
